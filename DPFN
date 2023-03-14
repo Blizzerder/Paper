@@ -1,0 +1,47 @@
+Title: 
+  A Dual-Path Fusion Network for Pan-Sharpening 
+  一个双路径融合全色锐化网络
+  
+Abstract：
+  Most existing deep learning-based pan-sharpening methods own several widely recognized issues, such as spectral distortion and insufficient spatial texture enhancement. 
+  指出当前全色锐化领域的不足：光谱失真、空间纹理增强不足等
+  To address these challenges in pan-sharpening, we propose a novel dual-path fusion network (DPFN). 
+  引出自己的DPFN模型
+  The proposed DPFN includes two major components: 1) the global subnetwork (GSN) and 2) the local subnetwork (LSN).
+  介绍模型的总体构成：全局子网络GSN和局部子网络LSN
+  In particular, GSN aims to search similar image blocks in panchromatic (PAN) space and multispectral (MS) space and exploits HR textural information from the PAN space and spectral information from the MS space for the fine representation of pan-sharpened MS features by employing a cross nonlocal block.
+  介绍GSN的功能是查找PAN图像和MS图像和相似块，并引出cross nonlocal block
+  Meanwhile, the proposed LSN based on a high-pass modification block (HMB) is designed to learn the high-pass information, aiming to enhance bandwise spatial information from MS images. 
+  介绍LSN的功能是学习高通信息，引出HMB块
+  HMB forces the fused image to obtain high-frequency details from PAN images.
+  介绍HMB块的功能
+  Moreover, to facilitate the generation of visually appealing pan-sharpened images, we propose a perceptual loss function and further optimize the model based on high-level features in the near-infrared space.
+  介绍感知损失函数，目的是生成更具视觉吸引力的图像
+  Experiments demonstrate the superior performance of the proposed method quantitatively and qualitatively compared to existing state-of-the-art pan-sharpening methods.
+  实验效果介绍
+  The source code is available at https://github.com/jiaming-wang/DPFN.
+  GitHub地址
+  
+Introduction：
+  WITH the rapid development of satellite sensors, remote sensing images have been widely used in various academic fields, and civil and military domains.
+  从卫星空间图像引入
+  However, as recognized by many, remote sensing sensors own the intrinsic tradeoff between spatial resolution and spectral resolution.
+  提出卫星空间图像的空间分辨率和光谱分辨率两个重要要素
+  As a result, for a certain remote sensing sensor, the captured gray panchromatic (PAN) images are generally with a finer resolution than multispectral (MS) images.
+  引出PAN图像和MS图像的特点
+  Typically, the goal of pan-sharpening is to integrate the texture details of the high-resolution (HR) PAN images with the spectral information from low-resolution (LR) MS images for the purpose of generating HR-MS images, therefore breaking the technological limits.
+  介绍Pansharpening的任务：将PAN图像的纹理细节和MS图像的光谱信息聚合以生成HRMS图像，打破技术限制
+  Given the above utility, pan-sharpening tasks are often regarded as a crucial preprocessing step for numerous remote sensing data applications, such as the extraction of urban impervious surfaces, land-cover classification, and change detection.
+  说明Pansharpening任务的重要性
+  
+  Traditional pan-sharpening methods are generally based on handcrafted features, with limited capacity to reconstruct the missing information in the MS images.
+  一句话介绍传统Pansharpening工作和限制
+  More recently, numerous learning-based frameworks [6]–[8] have been proposed. These methods are able to learn a nonlinear mapping and high semantic features from a large number of paired images, significantly improving the performance and robustness of the pan-sharpening process.
+  引出以深度学习为基础的方法并介绍其优势
+  
+  As the information from the PAN image and MS image is complimentary with a considerable amount of redundancy, building an efficient deep learning model with different specifications becomes a major focus of pan-sharpening tasks.
+  介绍了Pansharpening的重要出发点：构建具有不同规格的高效学习模型
+  Taking advantage of the MS/PAN image pairs, traditional deep learning-based pan-sharpening frameworks are summarized in Fig. 1. As displayed in Fig. 1(a), existing pan-sharpening methods [7], [9], [10] based on convolutional neural networks (CNNs) tend to view the input MS/PAN image pairs as a whole and aim to learn a mapping function from the concatenation of the LR-MS and PAN to the HR-MS image.
+  介绍传统的深度学习网络方法：将LRMS图像和PAN图像拼接之后训练映射函数
+  To make full use of the high-frequency information in the PAN image, another learning strategy is depicted in Fig. 1(b), where high-pass version PAN as the residual for information enhancement is employed [2], [11].
+  
