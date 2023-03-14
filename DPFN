@@ -44,4 +44,6 @@ Introduction：
   Taking advantage of the MS/PAN image pairs, traditional deep learning-based pan-sharpening frameworks are summarized in Fig. 1. As displayed in Fig. 1(a), existing pan-sharpening methods [7], [9], [10] based on convolutional neural networks (CNNs) tend to view the input MS/PAN image pairs as a whole and aim to learn a mapping function from the concatenation of the LR-MS and PAN to the HR-MS image.
   介绍传统的深度学习网络方法：将LRMS图像和PAN图像拼接之后训练映射函数
   To make full use of the high-frequency information in the PAN image, another learning strategy is depicted in Fig. 1(b), where high-pass version PAN as the residual for information enhancement is employed [2], [11].
-  
+  提出了新的学习策略：采用高通版本作为信息增强的残差
+  Despite the first-rate results achieved by these CNN-based methods, problems still remain to be solved. Inspired by deep learning-based image super-resolution, Fig. 1(a) presents a solution to cope with the texture generation, which reconstructs the image patch from the information within the small receptive area pixels.However, such a solution is unable to utilize global information in an effective manner from the HR-PAN space, leading to oversmoothing results.
+  引出了新方法：根据小接受区域像素内的信息重建图像块，但是无法获取全局信息
