@@ -46,4 +46,32 @@ Introduction：
   To make full use of the high-frequency information in the PAN image, another learning strategy is depicted in Fig. 1(b), where high-pass version PAN as the residual for information enhancement is employed [2], [11].
   提出了新的学习策略：采用高通版本作为信息增强的残差
   Despite the first-rate results achieved by these CNN-based methods, problems still remain to be solved. Inspired by deep learning-based image super-resolution, Fig. 1(a) presents a solution to cope with the texture generation, which reconstructs the image patch from the information within the small receptive area pixels.However, such a solution is unable to utilize global information in an effective manner from the HR-PAN space, leading to oversmoothing results.
-  引出了新方法：根据小接受区域像素内的信息重建图像块，但是无法获取全局信息
+  1a方法：根据小接受区域像素内的信息重建图像块，但是无法获取全局信息
+  As for Fig. 1(b), directly learning the residual map from the PAN image tends to give rise to spectral distortion [11].
+  1b方法：直接从PAN图像学习残差图会导致光谱失真
+  To summarize, there are two major problems that remain to be solved: 1) how to effectively exploit the intrinsic relations between the PAN and MS images? And 2) how to deal with the spectral distortion phenomenon and obtain the high-fidelity, high-frequency information?
+  总结当前方法的两个问题：有效利用PAN和MS图像的内在联系；处理频谱失真现象，获得高保真的高频信息。这也是论文的发力点
+  
+  To answer these questions and address the challenges in pan-sharpening tasks, we propose a novel dual-path fusion network (DPFN) that includes two global subnetworks (GSNs) and two local subnetworks (LSNs), as shown in Fig. 1(c).
+  此段开始讲自己的方法：一种双路径融合网络DPFN，包括两个GSN和LSN
+  The proposed DPFN aims to learn multiscale feature information progressively, leading to its state-of-the-art performance.
+  总体介绍功能：逐步学习多尺度特征信息
+  Inspired by the applications of the neighbor embedding model [6], a model that exploits HR patches in the PAN image and reconstructs these patches as a pan-sharpened image, we design a cross nonlocal block (CNL) to excavate long distance and cross space dependencies and aggregate these relevant patches to characterize the global information.The designed CNL can effectively reduce computational cost.
+  设计了一个跨越的非局部块（CNL），目的是挖掘长距离和跨空间依赖，并聚合这些相关补丁来表征全局信息。可以降低计算成本
+  Meanwhile, unlike existing works [2], [9] that take advantage of high-pass spatial information, we estimate local band-by-band residual components rather than all bands at the same time, aiming to exploit unique bandwise high-pass information.
+  另一个创新点：同时估计局部逐带残差分量而不是所有频带
+  More specifically, we design a novel high-pass modification block (HMB), where the special residual information is extracted via the spatial attention block, to adaptively learn fine-grained textural information. The learned global and local components are combined as the pan-sharpened image.
+  介绍高通修改块，作用是提取特殊的残差信息，自适应地学习细粒度纹理信息
+  In addition, we propose a near-infrared-VGG (NIR-VGG) loss to guide the network to focus on perceptual differences and generate visually pleasant results.
+  提出近红外损失，产生视觉上更好的结果
+  
+  The main contributions of the proposed DPFN are given as follows.
+  1) We propose an efficient DPFN for the pan-sharpening framework that learns the global and local information via the GSN and LSN, respectively. Both qualitative and quantitative results confirm that the proposed DPFN outperforms existing state-of-the-art methods.
+  贡献1：提出了一种用于全色锐化框架的DPFN，通过GSN和LSN学习全局和局部信息
+  2) We propose a GSN to capture global textural and spectral information by integrating the neighbor embedding and residual blocks. HR texture information in the PAN space and spectral information in the MS space are fused to characterize the global contour. The proposed GSN is computational-friendly with less spatial and spectral distortion.
+  贡献2：提出了GSN，通过集成相邻嵌入和残差块来捕获全局纹理和光谱信息
+  3) We design an HMB to enhance the high-frequency spatial information in each band of the MS image. The corrected residual image can fully exploit the spatial prior of the PAN images, avoiding the problem of spectral distortion to a large extent. In addition, we use a perceptual loss to constrain the model in the NIR band. The feature maps in the perceptual domain play an essential role in restoring detailed texture information.
+  贡献3：设计了HMB块提取高频信息，并引入了感知损失
+  
+
+  
