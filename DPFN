@@ -73,5 +73,42 @@ Introduction：
   3) We design an HMB to enhance the high-frequency spatial information in each band of the MS image. The corrected residual image can fully exploit the spatial prior of the PAN images, avoiding the problem of spectral distortion to a large extent. In addition, we use a perceptual loss to constrain the model in the NIR band. The feature maps in the perceptual domain play an essential role in restoring detailed texture information.
   贡献3：设计了HMB块提取高频信息，并引入了感知损失
   
-
+Related Work：
+  Over the past few decades, various pan-sharpening algorithms have been proposed and investigated. Traditional pan-sharpening methods can be grouped into three main categories: component substitution (CS)-, multiresolution analysis (MRA)-, and variational optimization (VO)-based methods [12]. The main idea of CS-based methods is to separate spatial and spectral information of the MS image in a suitable space and further fuse them with the PAN image. The representative CS-based methods include the intensity-hue–saturation (IHS) methods [13], the Brovey transformation (BT)-based methods [14], the principal component analysis (PCA) methods [15], [16], the Gram–Schmidt (GS) methods [17], and so on. In comparison, MRA-based methods decompose MS and PAN images into multiscale space via the Laplacian pyramid transform [18], the Wavelet transform [19], the curvelet transform [20], and the nonsubsampled contourlet transform [21]. Then, the decomposed version PAN images are injected into the corresponding MS images for information fusion [22]. The combination of CS and MRA shows the spatial–spectral unified fidelity [23]. However, the above methods fall short when accurate image coregistration is not satisfied [10].
+  VO-based methods regard the pan-sharpening tasks as an ill-posed problem [24] by minimizing a loss function. Li and Yang [25] first proposed a sparse-representation pan-sharpening method that expresses nonlocal relations in the PAN space and reconstructs HR patches in MS space. Cheng et al. [26] further adopted a two-step learning strategy and improved its representation ability. After that, various regularization terms, e.g., nonlocal [27], the Bayesian regularization [28], and total variation operators [29], are equipped into the representation coefficient optimization. However, the performance of these methods is limited due to the shallow nonlinear expression in these models.
+  介绍了传统方法
+  Recently, several CNN-based pan-sharpening algorithms have been proposed, benefiting from the powerful feature extraction capability of machine learning and the development of deep learning-based single-image super-resolution [30], which facilitates the recovery of the missing high-frequency information from the LR image. Inspired by the super-resolution CNN (SRCNN) [31], PNN [7] learned the nonlinear mapping function between the concatenation of the LR-MS and PAN to the HR-MS image. Scarpa et al. [9] proposed a target-adaptive CNN-based framework that learns the residual image, further improving the performance of the image fusion. Multiscale and multidepth CNN (MSDCNN) [10] was proposed to extract multiscale features. Han et al. [32] proposed a surface- and deep-level constraint-based pan-sharpening network. Cai and Huang [2] proposed a super-resolution guided progressive pan-sharpening neural network to combine multiscale features and achieve improved performance. Nevertheless, most of the aforementioned pan-sharpening methods treat MS/PAN image pairs as independent components and ignore the spatial–spectral correlation between them. Ma et al. [33] proposed an unsupervised strategy via the generative adversarial networks, while Zhang and Ma [34] used the gradient transformation prior to generate the high-quality image with the accurate spectral distribution.
+  介绍了之前的深度学习方法
+  
+  The nonlocal mean operation [6], widely used in image in-painting tasks [35], [36], allows the model to aggregate the global patches at all spatial positions as the response at a position. 
+  非局部平均运算是将所有空间位置的全局patch整合起来作为一个位置的响应
+  Inspired by the nonlocal mechanism, Zhu and Bamler [37] presented a new model that constructs a pair of HR/LR P AN dictionaries. In [38], a two-step model was proposed, which employs HR texture information in the PAN image for the fine representation of MS features.
+  前人对非局部机制的研究
+  Despite the success of these methods in improving image quality, these shallow learning networks are computationally demanding and with considerably poor nonlinear expressive capability, leading to their limited performance in practical applications [30], especially in the era of big data.
+  提出了不足
+  Wang et al. [39] proposed a nonlocal neural network to capture long-distance dependency information. After that, the nonlocal mechanism has been widely used in image in-painting and enhancement tasks, such as super-resolution [40], [41], denoising [42], [43], and dehazing [44], [45]. In our proposed method, the general goal is to efficiently and effectively capture spectral information and spatial texture via the proposed CNL block that achieves the cross-global response (spatial and spectral responses) to improve the quality of our fusion results.
+  说明CNL块的功能：捕获光谱信息和空间纹理，实现跨全局响应
+  
+Proposed Method：
+  
+  Global Subnetwork：
+  Specifically, the input LR-MS ILRMS is fed into an up-block consisting of a feature extraction part (with residual blocks [46]) and an up-sampling part.
+  LRMS被送入由上采样和特征提取部分（具有残差块）组成的“上块”中
+  Then, we extract the deep features from MS and P AN images as fLRMS and fPAN↓2 via the feature extractor in the up-sampling space.
+  从MS和PAN图像中分别提取深度特征
+  Finally, the proposed CNL block is used to integrate the MS and P AN features and learn the nonlocal information.
+  CNL模块聚合两个特征并学习非局部信息
+  
+  Local Subnetwork:
+  The reconstructed pan-sharpened MS image in the GSN is first divided into c bands (R, G, B, a n d BNIR in this study, where BNIR denotes the NIR channel).
+  经过GSN重建后的全色锐化图像被分为c个波段
+  Furthermore, the final pan-sharpened MS images in the space with scale factor ×2 can be obtained via the sum operation
+  经过求和运算得到经过全色锐化后的图像
+  
+  Cross Nonlocal Block：
+  
+  The nonlocal blocks, often used in image in-painting tasks, allow models to aggregate the global pixels at all spatial positions as the response at a position.
+  
+  
+  
   
