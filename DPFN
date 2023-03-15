@@ -107,8 +107,16 @@ Proposed Method：
   
   Cross Nonlocal Block：
   
-  The nonlocal blocks, often used in image in-painting tasks, allow models to aggregate the global pixels at all spatial positions as the response at a position.
+  The nonlocal blocks, often used in image in-painting tasks, allow models to aggregate the global pixels at all spatial positions as the response at a position.Specifically, these models are designed to compute the global response and aggregate feature maps in the entire spatial space, expecting to effectively excavate similar and repeated complementary information.
+  介绍一下非局部块的作用：允许模型将所有空间位置的全局像素聚合为某个位置的响应
   
+  For a pan-sharpening problem, it is crucial to effectively exploit the intrinsic properties of MS with P AN image properties and aggregate the feature maps from the two spaces.In this article, we advocate a CNL to exploit the nonlocal spatial prior from the MS and P AN images, as shown in Fig. 3. Different from the standard nonlocal block, the proposed CNL exploits HR texture information in the P AN space and spectral information in the MS space for the fine representation of pan-sharpened MS features. k × k convolution layers (θ, δ, and φ in Fig. 3) are used to simulate the block operation, which is implemented by a k × k sliding window in the traditional nonlocal algorithms. The complexity of the matrix similarity calculation in the CNL is 2((W H )2/k2).
+  介绍了CNL块的功能：提取PAN图像的高分辨率纹理信息和MS图像的光谱信息来生成HRMS。用k*k的卷积层来代替k*k的滑动窗口模拟块运算
+  Taking the CNL in the space with scale factor ×2 a s a n example, we first feed the input MS feature map fLRMS and P AN feature map fPAN↓ with the size of W × H × C into the CNL. One of the advantages of the CNL is that the input of the k × k convolution can be rescaled into (W/k) × (H/k) × C. Then, the rescaled features (after the δ convolution layer) are multiplied by the features in the MS space (after the θ convolution layer) and the features in the P AN space (after the φ convolution layer) to calculate feature correlation with a normalization (softmax function). We rescale the similarity matrix into W H × W H via a near interpolation. The embedding operations (ϕ and ϑ in Fig. 3) aim to rescale the original features via a scaling factor. With the proposed CNL, we exploit HR texture information in the P AN space and spectral information in the MS space for the fine representation of pan-sharpened MS features.
+  输入PAN和MS的特征之后，用K*K卷积层重新调整特征大小，然后计算相似矩阵，调整相似矩阵大小后，与调整后的原特征进行归一化，拼接之后融合得到特征
   
+  High-Pass Modification Block
   
+  The proposed HMB (see Fig. 4), termed HMB, is designed to exploit the high-frequency prior. First, the output INN of the CNL is split into single-band images X (in this study, X ∈ {R, G, B, BNIR}). After that, we feed the concatenation of the single-band images X and the P AN image P into the HMB for feature extraction. In particular, HMB cascades nr(nr = 12) residual blocks with 3 × 3 convolutions
+  CNL的输出INN被分割成单波段图像X，然后和PAN级联馈送到HMB中用于特征提取
   
