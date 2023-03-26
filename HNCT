@@ -23,4 +23,25 @@ Introduction：
     提出了一种CNN和Transformer的混合快HBCT，同时利用局部和非局部先验来提取有利于超分辨率的特征
     
 Method：
-  
+  Network Stucture:
+    所提出了HNCT由四部分组成：浅层特征提取（SFE），CNN和Transformer混合块（HBCT）、密集特征融合（DFF）和上采样模块
+    对于给定的LR图像ILR,首先使用一层卷积层来提取浅层特征F0，然后使用几个HBCT对F0进行深层特征提取
+    所有HBCT的输出被Concat并发送到DFF模块，DFF模块包括两个堆叠的卷积层以融合所有层次特征，并添加全局残差学习策略以减轻学习维度。1*1卷积用于特征融合，3*3卷积进行进一步的特征提取
+    最后上采样模块由3*3卷积和pixel shuffle层组成，重建ISR图像
+  Hybrid Block of CNN and Transformer：
+    HBCT由一个Swin Transformer Block、一个3*3卷积层和两个增强空间注意力模块ESA组成
+    STB的提出是因为它可以极大地提高模型的表示能力。ESA的特点是重量轻、效率高
+    第d-1个HBCT输出的特征图被送到第d个HBCT模块
+    对于输入，HBCT首先通过ESA模块选择重要特征，然后通过STB模块提取中间特征，通过一个3*3卷积层以确保我们的网络的平移等方差，最后引入另一个ESA模块来获得更感兴趣的区域的特征
+  Swin Transformer Block(STB)：
+    STL采用了基于标准多头自注意的原始Transformer层架构，并引入了局部注意力和移位窗口机制
+    在我们的模型中，一个STB包括两个STL来平衡性能和网络复杂性
+  Enhanced Spatial Attention(ESA)
+    对于给定的输入，ESA首先通过1*1卷积提取紧凑特征，减小嵌入尺寸
+    接着通过一个3*3卷积，最大池化层，一个三个3*3卷积组成的卷积组和一个双线性插值实现的上采样函数
+    跨卷积层和最大池化层都降低了空间维度，之后通过上采样层恢复
+    
+    
+    
+    
+    
